@@ -11,6 +11,8 @@ WebAssembly JavaScript Interface Specification
 
 https://github.com/WebAssembly
 
+[wasm api](https://developer.mozilla.org/zh-CN/docs/WebAssembly)
+
 asm.js
 
 编译器包含：
