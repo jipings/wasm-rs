@@ -97,6 +97,53 @@ LEB128 （Little Endian Base 128），是一种变长编码格式（variable-len
 
 实现 dump 命令
 
+## 指令集
+
+Wasm 指令包含两部分信息：操作码（Opcode）和操作数（Operands）。
+操作码是指令的ID，决定指令将执行的操作；操作数则相当于指令的参数，决定指令的执行结果
+
+操作码
+Wasm 指令的操作码固定一个字节，因此指令集最多只能包含256条指令。
+Wasm 规范一共定义了178条指令，分为5大类：
+
+1. 控制指令（Control Instructions），共13条指令
+2. 参数指令（Parametric Instruments），共2条指令
+3. 变量指令（Variable Instruments），共5条指令
+4. 内存指令（Memory Instruments），共25条指令
+5. 数值指令（Numeric Instruments），共133条指令
+
+立即数
+操作数分为两种：静态操作数和动态操作数
+静态立即参数（Static Immediate Arguments）
+动态操作数（Dynamic Operands）
+
+数值指令
+
+1. i32.const (0x41) 带一个s32类型的立即数，使用 LEB128 有符号格式编码
+2. i64.const (0x42) 带一个s64类型的立即数，使用 LEB128 有符号格式编
+3. f32.const (0x43) 带一个f32类型的立即数，固定 4 字节
+4. f64.const (0x44) 带一个f64类型的立即数，固定 8 字节
+5. trunc_sat (0xFC) 带一个单字节的立即数
+
+## 文本格式
+
+Wasm 规范定义了模块的文本格式（WebAssembly Text Format， WAT）
+
+基本结构
+Wasm 文本格式使用S-表达式描述模块。这种表达式来源自 Lisp 语言，特别适合描述类似抽象语法树（Abstract Syntax Tree， AST）
+
+文本格式提供了多种内联写法：函数域、表域、内存域、全局域可以内联导入或导出域，表域可以内联元素域，内存域可以内联数据域，函数域和导入域可以内联类型域。这些内联写法只是语法糖，WAT 编译器会做妥善处理
+
+类型域
+导入和导出域
+函数域
+表域和元素域
+内存域和数据域
+全局域
+起始域
+指令
+
+
 
 
 
