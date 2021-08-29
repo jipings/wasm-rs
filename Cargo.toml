@@ -9,4 +9,5 @@ edition = "2018"
 wasmer = "2.0.0"
 wasmer-engine-universal = "2.0.0"
 wasmer-compiler-cranelift = "2.0.0"
+anyhow = "1.0.43"
 
