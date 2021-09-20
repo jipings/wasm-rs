@@ -832,6 +832,7 @@ name = "wasm-rs"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "loupe",
  "wasmer",
  "wasmer-compiler-cranelift",
  "wasmer-engine-universal",
