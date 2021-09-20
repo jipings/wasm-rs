@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAssembly.compile()
+    </title>
+</head>
+<body>
+    WebAssembly.compile()
+</body>
+    <script>
+        var worker = new Worker("wasm_worker.js");
+
+   
+   // WebAssembly.compileStreaming() 方法用来从一个流式源中直接编译一个 WebAssembly.Module
+        WebAssembly.compileStreaming(fetch("sample.wasm"))
+            .then(mod => worker.postMessage(mod))
+    /*
+        方法编译WebAssembly二进制代码到一个WebAssembly.Module 对象。
+        如果在实例化之前有必要去编译一个模块，那么这个方法是有用的（否则，将会使用WebAssembly.instantiate() 方法）
+    */
+        fetch("sample.wasm")
+            .then(res => res.arrayBuffer())
+            .then(bytes => {
+                var valid = WebAssembly.validate(bytes);
+                console.log("The given bytes are " + (valid ? "" : "not ") + "a valid wasm module");
+                return bytes;
+            })
+            .then(bytes => WebAssembly.compile(bytes))
+            .then(mod => worker.postMessage(mod));
+
+    
+    </script>
+</html>

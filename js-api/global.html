@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAssembly.Global
+    </title>
+</head>
+<body>
+    WebAssembly.Global
+    <hr />
+    <div id="output"></div>
+</body>
+<script>
+    const output = document.getElementById('output');
+
+    function assertEq(msg, got, expected) {
+        output.innerHTML += `Testing ${msg}: `;
+        if (got !== expected) {
+            output.innerHTML += `FAIL!<br> Got: ${got}<br> Expected: ${expected}<br>`;
+        } else {
+            output.innerHTML += `SUCCESS! GOT: ${got}<br>`;
+        }
+    }
+    assertEq("WebAssembly.Global exists", typeof WebAssembly.Global, "function");
+
+    const global = new WebAssembly.Global({ value: 'i32', mutable: true }, 0);
+    WebAssembly.instantiateStreaming(fetch('./global.wasm'), { js: { global } })
+        .then(({ instance }) => {
+            assertEq("getting initial value from wasm", instance.exports.getGlobal(), 0);
+            global.value = 42;
+            assertEq("getting JS-updated value from wasm", instance.exports.getGlobal(), 42);
+            instance.exports.incGlobal();
+            assertEq("getting wasm-updated value from JS", global.value, 43);
+        })
+</script>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Another WASM table example</title>
+</head>
+<body>
+    Another WASM table example
+</body>
+<script>
+    var tbl = new WebAssembly.Table({ initial: 2, element: "anyfunc" }); 
+    // element 一个表明储存在该Table中对象的类型。 目前只能是： "anyfunc" (函数)。
+    console.log(tbl.length);
+    console.log(tbl.get(0));
+    console.log(tbl.get(1));
+
+    var importObj = { js: { tbl: tbl } };
+
+    WebAssembly.instantiateStreaming(fetch("table2.wasm"), importObj)
+        .then(function(obj) {
+            console.log(tbl.length);
+            console.log(tbl.get(0)());
+            console.log(tbl.get(1)());
+        })
+</script>
+</html>

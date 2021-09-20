@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample API</title>
+</head>
+<body>
+    Sample API
+</body>
+<script>
+    var importObj = {
+        js: {
+            import1: () => console.log("hello,"),
+            import2: () => console.log("world!")
+        }
+    };
+
+    fetch("./sample.wasm").then(response => response.arrayBuffer())
+    // instantiate，用于编译和实例化 WebAssembly 代码的主 API，返回一个 Module 和它的第一个Instance实例。
+        .then(buffer => WebAssembly.instantiate(buffer, importObj))
+        .then(({ module, instance }) => instance.exports.f());
+    
+    // WebAssembly.instantiateStreaming() 方法
+    // 直接从流式底层源编译和实例化WebAssembly模块。这是加载wasm代码一种非常有效的优化方式。
+    WebAssembly.instantiateStreaming(fetch("./sample.wasm"), importObj)
+        .then(obj => obj.instance.exports.f());
+
+</script>
+</html>
