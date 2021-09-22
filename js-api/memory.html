@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM memory test</title>
+</head>
+<body>
+    WASM memory test
+</body>
+<script>
+    var memory = new WebAssembly.Memory({ initial: 10, maximum: 100 });
+
+    WebAssembly.instantiateStreaming(fetch("memory.wasm"), { js: { mem: memory } })
+        .then(obj => {
+            var i32 = new Uint32Array(memory.buffer); 
+            console.log(i32);
+            // Uint32Array 表示一个由基于平台字节序的32位无符号字节组成的数组
+            for (var i = 0; i < 10; i++) {
+                i32[i] = i;
+            }
+            var sum = obj.instance.exports.accumulate(0, 10);
+            console.log(sum);
+        })
+</script>
+</html>
