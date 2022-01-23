@@ -16,17 +16,28 @@
         }
         return fibonacci_js(n-1) + fibonacci_js(n-2)
     };
-    console.time('fib1');
-    const fib1 = fibonacci_js(40);
-    console.timeEnd('fib1');
-    console.log(fib1);
+    // console.time('fib1');
+    let t1 = new Date()
+    for (let i = 0; i< 10; i++) {
+        const fib1 = fibonacci_js(40);
+    }
+    let t2 = new Date()
+    const js_loss_time = (t2 - t1)/1000
+    console.log("loss time", js_loss_time + 's')
+    // console.timeEnd('fib1');
 
     WebAssembly.instantiateStreaming(fetch('fuel.wasm'))
         .then((obj) => {
-            console.time('fib2');
-            const fib2 = obj.instance.exports.fibonacci(40)
-            console.timeEnd('fib2');
-            console.log(fib2)
+            // console.time('fib2');
+            let t1 = new Date()
+            for (let i = 0; i< 10; i++) {
+                const fib2 = obj.instance.exports.fibonacci(40)
+            }
+            let t2 = new Date()
+            const wasm_loss_time = (t2 - t1)/1000
+            console.log("wasm loss time", (t2 - t1)/1000)
+            console.log("ratio:", (js_loss_time-wasm_loss_time)/js_loss_time)
+            // console.timeEnd('fib2');
         })
 </script>
 </html>
