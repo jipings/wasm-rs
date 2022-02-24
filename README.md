@@ -5,3 +5,6 @@
 ## [WebAssembly文本格式1](https://developer.mozilla.org/zh-CN/docs/WebAssembly/Understanding_the_text_format)
 
 ## [WebAssembly文本格式2](http://webassembly.org.cn/docs/semantics/)
+
+## [WebAssembly原理与核心技术 - 张秀宏](https://book.douban.com/subject/35233448/)
+
